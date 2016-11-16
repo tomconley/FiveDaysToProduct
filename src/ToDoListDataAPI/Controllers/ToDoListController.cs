@@ -41,7 +41,7 @@ namespace ToDoListDataAPI.Controllers
         // GET: api/ToDoItemList
         public IEnumerable<string> Get(string owner)
         {
-            return new ["thomas", "michael", "conley"];
+            return new string[] { "thomas", "michael", "conley" };
             // CheckCallerId();
 
             // return mockData.Values.Where(m => m.Owner == owner || owner == "*");
