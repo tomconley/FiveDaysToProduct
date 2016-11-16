@@ -1,7 +1,6 @@
-﻿using SlalomConnectsAPI;
-using System.Web.Http;
+﻿using System.Web.Http;
 
-namespace ToDoListDataAPI
+namespace SlalomConnectsAPI
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
