@@ -47,36 +47,15 @@ namespace ToDoListAPI.Controllers
         }
 
         // GET: api/ToDoItemList
-        public async Task<IEnumerable<ToDoItem>> Get()
+        public async Task<IEnumerable<string>> Get()
         {
-            // Uncomment following line in each action method for user authentication
-            //owner = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
-            using (var client = NewDataAPIClient())
-            {
-                var results = await client.ToDoList.GetByOwnerAsync(owner);
-                return results.Select(m => new ToDoItem
-                {
-                    Description = m.Description,
-                    ID = (int)m.ID,
-                    Owner = m.Owner
-                });
-            }
+            // Experimental endpoint to test free app deploy.
+            return new ["thomas","michael","conley"];
         }
 
         // GET: api/ToDoItemList/5
         public async Task<ToDoItem> GetByID(int id)
         {
-            //owner = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
-            using (var client = NewDataAPIClient())
-            {
-                var result = await client.ToDoList.GetByIdByOwnerAndIdAsync(owner, id);
-                return new ToDoItem
-                {
-                    Description = result.Description,
-                    ID = (int)result.ID,
-                    Owner = result.Owner
-                };
-            }
         }
 
         // POST: api/ToDoItemList
