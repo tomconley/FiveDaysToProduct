@@ -1,0 +1,40 @@
+.center {
+    text-align: center;
+    margin: 150px 50px;
+    font-size: 40px;
+}
+
+
+#activityOptions img {
+    width: 225px;
+    height: 225px;
+}
+
+
+#activityOptions button {
+    display: inline-block;
+}
+
+
+
+
+
+#size {
+    display: none;
+}
+
+
+
+
+
+#time {
+    display: none;
+}
+
+
+
+
+#validUser {
+    display: none;
+
+}
