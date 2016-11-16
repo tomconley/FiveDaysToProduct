@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Security.Claims;
-using System.IdentityModel.Tokens;
-using System.Diagnostics;
 using ToDoListDataAPI.Models;
-using System.Configuration;
 
-namespace ToDoListDataAPI.Controllers
+namespace SlalomConnectsAPI.Controllers
 {
-    public class ToDoListController : ApiController
+    public class SlalomConnectsController : ApiController
     {
         // Uncomment following lines for service principal authentication
         //private static string trustedCallerClientId = ConfigurationManager.AppSettings["todo:TrustedCallerClientId"];
@@ -21,7 +13,7 @@ namespace ToDoListDataAPI.Controllers
 
         private static Dictionary<int, ToDoItem> mockData = new Dictionary<int, ToDoItem>();
 
-        static ToDoListController()
+        static SlalomConnectsController()
         {
             mockData.Add(0, new ToDoItem { ID = 0, Owner = "*", Description = "feed the dog" });
             mockData.Add(1, new ToDoItem { ID = 1, Owner = "*", Description = "take the dog on a walk" });
@@ -52,7 +44,7 @@ namespace ToDoListDataAPI.Controllers
         {
             CheckCallerId();
 
-            return mockData.Values.Where(m => (m.Owner == owner || owner == "*" ) && m.ID == id).First();
+            return mockData.Values.Where(m => (m.Owner == owner || owner == "*") && m.ID == id).First();
         }
 
         // POST: api/ToDoItemList
@@ -88,4 +80,3 @@ namespace ToDoListDataAPI.Controllers
         }
     }
 }
-
