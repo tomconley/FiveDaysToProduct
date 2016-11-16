@@ -39,7 +39,7 @@ namespace ToDoListDataAPI.Controllers
         }
 
         // GET: api/ToDoItemList
-        public IEnumerable<string> Get(string owner)
+        public IEnumerable<string> Get()
         {
             return new string[] { "thomas", "michael", "conley" };
             // CheckCallerId();
