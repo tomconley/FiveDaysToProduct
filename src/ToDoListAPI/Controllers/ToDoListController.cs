@@ -80,6 +80,9 @@ namespace ToDoListAPI.Controllers
         }
 
         // POST: api/ToDoItemList
+        ///
+        /// Use this endpoint to create requests to meet Slalomites.
+        ///
         public async Task Post(ToDoItem todo)
         {
             //owner = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
