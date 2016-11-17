@@ -42,7 +42,12 @@ namespace SlalomConnectsAPI.Controllers
 
             var possibleEventGroupsWithMinimumCountOrMore = GetEventGroupByMatchingEventTimes(newEventRequest, existingEventRequests);
 
-            return GetEventGroupWithEarliestSubmitionTime(possibleEventGroupsWithMinimumCountOrMore);
+            if (possibleEventGroupsWithMinimumCountOrMore != null)
+            {
+                return GetEventGroupWithEarliestSubmitionTime(possibleEventGroupsWithMinimumCountOrMore);
+            }
+
+            return null;
         }
 
         private static List<EventRequest> GetRequestsWithMatchingEventType(EventRequest newEventRequest, List<EventRequest> existingEventRequests)

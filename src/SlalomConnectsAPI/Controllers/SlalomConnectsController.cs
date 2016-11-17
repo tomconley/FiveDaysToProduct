@@ -49,6 +49,17 @@ namespace SlalomConnectsAPI.Controllers
         }
 
         [HttpPost]
+        [Route("slalom-connects-api/populate-test-users")]
+        public HttpResponseMessage PostTestData()
+        {
+            _existingEventRequests.Add(new EventRequest()
+            {
+                
+            });
+            return null;
+        }
+
+        [HttpPost]
         [Route("slalom-connects-api/post-event-request")]
         public HttpResponseMessage Post(string email, EventType eventType, DateTime startTime, DateTime endTime, int? maximumGroupSize)
         {
