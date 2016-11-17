@@ -1,12 +1,33 @@
-h1 {
-    margin: 0 auto;
-    text-align: center;
-    display: block;
+.index-container {
+    background-image: url("../assets/home-bg-image.png");
+    padding-bottom: 50px;
 }
+
+img {
+    display: block;
+    margin:  auto;
+    padding-top: 120px;
+}
+
+p {
+    font-family: helvetica;
+    font-size: 60px;
+    color: white;
+    text-align: center;
+    padding: 0px 150px;
+}
+
 
 button {
     margin: 0 auto;
     text-align: center;
     display: block;
+    background-color: blue;
+    padding: 10px;
 }
 
+button a {
+    text-decoration: none;
+    color: white;
+
+}
