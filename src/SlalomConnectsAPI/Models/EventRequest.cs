@@ -5,6 +5,7 @@ namespace SlalomConnectsAPI.Models
     public class EventRequest
     {
         public Guid EventRequestGuid { get; set; }
+        public DateTime TimeOfRequestSubmition { get; set; }
         public string Email { get; set; }
         public EventType EventType { get; set; }
         public DateTime StartTime { get; set; }

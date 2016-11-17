@@ -42,7 +42,7 @@ namespace SlalomConnectsAPI.Controllers
         public HttpResponseMessage Get()
         {
             var response = this.Request.CreateResponse(HttpStatusCode.OK);
-            var responseBody = _existingEventRequests.Aggregate("", (current, eventRequest) => current + eventRequest.ToString() + Environment.NewLine);
+            var responseBody = _existingEventRequests.Aggregate("", (current, request) => current + request.ToString() + Environment.NewLine);
             response.Content = new StringContent(responseBody, Encoding.UTF8);
 
             return response;
@@ -50,7 +50,7 @@ namespace SlalomConnectsAPI.Controllers
 
         [HttpPost]
         [Route("slalom-connects-api/post-event-request")]
-        public void Post(string email, EventType eventType, DateTime startTime, DateTime endTime, int? minimumGroupSize, int? maximumGroupSize)
+        public HttpResponseMessage Post(string email, EventType eventType, DateTime startTime, DateTime endTime, int? maximumGroupSize)
         {
             CheckCallerId();
 
@@ -59,25 +59,57 @@ namespace SlalomConnectsAPI.Controllers
                 var eventRequest = new EventRequest()
                 {
                     EventRequestGuid = Guid.NewGuid(),
+                    TimeOfRequestSubmition = DateTime.Now,
                     Email = email,
                     EventType = eventType,
                     StartTime = startTime,
-                    EndTime = endTime
+                    EndTime = endTime,
+                    MaximumGroupSize = maximumGroupSize
                 };
 
-                var foundGroup = _groupMatchingController.MatchGroupFromEventRequests(eventRequest, _existingEventRequests);
+                var groupResult = _groupMatchingController.MatchGroupFromEventRequests(eventRequest, _existingEventRequests);
 
-                if (foundGroup == null)
+                if (groupResult == null)
                 {
+                    // Group not found, add to list of requests that are waiting then send response.
                     _existingEventRequests.Add(eventRequest);
+
+                    var response = this.Request.CreateResponse(HttpStatusCode.Created);
+                    var responseBody = "No group found for " + eventRequest.Email + ". Added request to waiting pool.";
+                    response.Content = new StringContent(responseBody, Encoding.UTF8);
+
+                    return response;
+                }
+                else
+                {
+                    // Group was found! Remove the requests that have been grouped, send emails, and send response.
+                    foreach (var request in groupResult.EventRequests)
+                    {
+                        if (_existingEventRequests.Contains(request))
+                        {
+                            _existingEventRequests.Remove(request);
+                        }
+                    }
+
+                    //TODO: send email
+
+                    var response = this.Request.CreateResponse(HttpStatusCode.OK);
+                    var emailsInGroup = string.Join(",", groupResult.EventRequests.Select(request => request.Email));
+                    var responseBody = "Group was formed!" + Environment.NewLine
+                                       + "Emails in group: " + emailsInGroup + Environment.NewLine
+                                       + "Event Type: " + groupResult.EventType + Environment.NewLine
+                                       + "Start Time: " + groupResult.StartTime + Environment.NewLine
+                                       + "End Time: " + groupResult.EndTime;
+                    response.Content = new StringContent(responseBody, Encoding.UTF8);
+
+                    return response;
                 }
             }
             catch (Exception ex)
             {
+                var response = this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+                return response;
             }
-
-            //todo.ID = mockData.Count > 0 ? mockData.Keys.Max() + 1 : 1;
-            //mockData.Add(todo.ID, todo);
         }
     }
 }
