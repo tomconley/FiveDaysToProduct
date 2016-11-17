@@ -1,18 +1,37 @@
+body {
+    background: linear-gradient(90deg, #0354A2, #A43B60);
+    font-family: helvetica;
+}
+
+h3 {
+    margin: 0px 0px 30px 0px;
+    font-size: 40px;
+}
+
 .center {
-    text-align: center;
-    margin: 100px;
+    padding-left: 100px;
+    padding-top: 100px;
     font-size: 40px;
     color: white;
 }
 
-
-.start-container {
-    background-color: brown;
+.next-btn {
+    border: none;
+    background: #FFF;
+    color: #0072C8;
+    box-shadow: 0px 0px 4px rgba(0,0,0, .25);
+    padding: 14px 30px 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 4px;
 }
+
+
+
+
 
 #activity-options {
     color: white;
-    font-family: helvetica;
     font-size: 32px;
 }
 
@@ -21,7 +40,7 @@
     display: inline-block;
 }
 
-.circle {
+.activity-icons .circle {
     width: 200px;
     height: 200px;
     background: white;
@@ -30,13 +49,45 @@
     border-radius: 100px;
 }
 
+.activity-icons img {
+    margin: 0 auto;
+    display: block;
+    padding-top: 22px;
+}
+
+.activity-icons p {
+    text-align: center;
+}
+
+.activity-icons .middle {
+    margin: 0px 40px;
+}
+
+.activity-icons .middle img {
+    padding-top: 38px;
+    padding-left: 5px;
+}
 
 
 
+
+
+
+
+.explanation {
+    font-size: 18px;
+    margin: 0px 0px 50px;
+}
 
 #size {
     display: none;
 }
+
+#size p {
+    font-size: 18px;
+}
+
+
 
 
 
@@ -51,5 +102,33 @@
 
 #validUser {
     display: none;
+}
 
+#validUser p {
+    margin: 15px 0px 0px 0px;
+}
+
+#validUser form p {
+    font-size: 13px;
+}
+
+#validUser span {
+    padding-left: 10px;
+    font-size: 13px;
+}
+
+#validUser input {
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 2px;
+    margin-top: 10px;
+    height: 35px;
+    width: 200px;
+}
+
+#validUser .valid-sub {
+    background: #FFF;
+    width: 105px;
+    height: 52px;
+    margin-top: 20px;
 }

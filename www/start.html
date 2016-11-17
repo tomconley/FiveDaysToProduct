@@ -5,12 +5,9 @@
 
 
 
-<div class="start-container">
 
 <div id="activity-options" class="center" onclick="setSize()">
     <h3>What would you like to do?</h3>
-
-
     <div class="activity-icons">
         <div class="circle">
             <img src="./Activities/assets/coffee-icon.png">
@@ -19,7 +16,7 @@
     </div>
 
     <div class="activity-icons">
-        <div class="circle">
+        <div class="circle middle">
             <img src="./Activities/assets/lunch-icon.png">
         </div>
         <p>Lunch</p>
@@ -31,14 +28,17 @@
         </div>
         <p>Ping Pong</p>
     </div>
-
 </div>
 
 
+
+
 <div id="size" class="center">
-    <h3>Preferred Group Size</h3>
+    <h3>How many people?</h3>
+    <p class="explanation">Select the number of people you want to join you.</p>
+
     <form>
-        <p>Maximum: </p>
+        <p>People joining you: </p>
         <select name="maximumGroupSize">
             <option value="three">3</option>
             <option value="four">4</option>
@@ -46,29 +46,38 @@
             <option value="six">6</option>
         </select>
     </form>
-    <button onclick="setTime()">Next</button>
+
+
+    <button class="next-btn" onclick="setTime()">Next</button>
 </div>
 
 
+
+
 <div id="time" class="center">
-    <h3>What time? Set a Range</h3>
+    <h3>What time can you meet?</h3>
+    <p class="explanation">We use this range to determine the best time to go to lunch with other Slalom employees</p>
     <form>
         Start Time: <input type="time" name="startTime">
         <br>
         End Time: <input type="time" name="endTime">
     </form>
-    <button onclick="createUser()">Next</button>
+    <button class="next-btn" onclick="createUser()">Next</button>
 </div>
+
+
+
 
 
 <div id="validUser" class="center">
-    <h3>Confirm you're real!</h3>
+    <h3>Register and confirm</h3>
+    <p class="explanation">Before we find you people to lunch with, we need to confirm your identity.</p>
+
     <form id="myForm" method="post" action="./confirm.html">
-        <p>Email</p><input type="text" name="email"><br>
-        <p>Password</p><input type="text" name="password"><br>
-        <p>Name</p><input type="text" name="name"><br><br>
-        <input type="submit">
+        <p>Name (first, last)</p><input type="text" name="name">
+        <p>E-mail</p><input type="text" name="email"><span>Slalom email only</span>
+        <p>Password</p><input type="text" name="password">
+        <br><input type="submit" class="next-btn valid-sub" value="Next">
     </form>
 </div>
 
-</div>
