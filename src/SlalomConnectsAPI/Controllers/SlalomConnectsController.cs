@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using ToDoListDataAPI.Models;
+using SlalomConnectsAPI.Models;
 
 namespace SlalomConnectsAPI.Controllers
 {
@@ -11,12 +12,12 @@ namespace SlalomConnectsAPI.Controllers
         //private static string trustedCallerClientId = ConfigurationManager.AppSettings["todo:TrustedCallerClientId"];
         //private static string trustedCallerServicePrincipalId = ConfigurationManager.AppSettings["todo:TrustedCallerServicePrincipalId"];
 
-        private static Dictionary<int, ToDoItem> mockData = new Dictionary<int, ToDoItem>();
+        //private static Dictionary<int, ToDoItem> mockData = new Dictionary<int, ToDoItem>();
 
         static SlalomConnectsController()
         {
-            mockData.Add(0, new ToDoItem { ID = 0, Owner = "*", Description = "feed the dog" });
-            mockData.Add(1, new ToDoItem { ID = 1, Owner = "*", Description = "take the dog on a walk" });
+            //mockData.Add(0, new ToDoItem { ID = 0, Owner = "*", Description = "feed the dog" });
+            //mockData.Add(1, new ToDoItem { ID = 1, Owner = "*", Description = "take the dog on a walk" });
         }
 
         private static void CheckCallerId()
@@ -30,53 +31,15 @@ namespace SlalomConnectsAPI.Controllers
             //}
         }
 
-        // GET: api/ToDoItemList
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "thomas", "michael", "conley" };
-            // CheckCallerId();
-
-            // return mockData.Values.Where(m => m.Owner == owner || owner == "*");
-        }
-
-        // GET: api/ToDoItemList/5
-        public ToDoItem GetById(string owner, int id)
+        // POST: api/SlalomConnects
+        [HttpPost]
+        [Route("api/slalom_connects/new_event_request")]
+        public void Post(string email, EventType eventType, DateTime startTime, DateTime endTime)
         {
             CheckCallerId();
 
-            return mockData.Values.Where(m => (m.Owner == owner || owner == "*") && m.ID == id).First();
-        }
-
-        // POST: api/ToDoItemList
-        public void Post(ToDoItem todo)
-        {
-            CheckCallerId();
-
-            todo.ID = mockData.Count > 0 ? mockData.Keys.Max() + 1 : 1;
-            mockData.Add(todo.ID, todo);
-        }
-
-        public void Put(ToDoItem todo)
-        {
-            CheckCallerId();
-
-            ToDoItem xtodo = mockData.Values.First(a => (a.Owner == todo.Owner || todo.Owner == "*") && a.ID == todo.ID);
-            if (todo != null && xtodo != null)
-            {
-                xtodo.Description = todo.Description;
-            }
-        }
-
-        // DELETE: api/ToDoItemList/5
-        public void Delete(string owner, int id)
-        {
-            CheckCallerId();
-
-            ToDoItem todo = mockData.Values.First(a => (a.Owner == owner || owner == "*") && a.ID == id);
-            if (todo != null)
-            {
-                mockData.Remove(todo.ID);
-            }
+            //todo.ID = mockData.Count > 0 ? mockData.Keys.Max() + 1 : 1;
+            //mockData.Add(todo.ID, todo);
         }
     }
 }
