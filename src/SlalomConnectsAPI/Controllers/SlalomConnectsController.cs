@@ -15,11 +15,13 @@ namespace SlalomConnectsAPI.Controllers
         //private static string trustedCallerClientId = ConfigurationManager.AppSettings["todo:TrustedCallerClientId"];
         //private static string trustedCallerServicePrincipalId = ConfigurationManager.AppSettings["todo:TrustedCallerServicePrincipalId"];
 
-        private static List<EventRequest> _eventRequests;
+        private static List<EventRequest> _existingEventRequests;
+        private static GroupMatchingController _groupMatchingController;
 
         static SlalomConnectsController()
         {
-            _eventRequests = new List<EventRequest>();
+            _existingEventRequests = new List<EventRequest>();
+            _groupMatchingController = new GroupMatchingController();
             //mockData.Add(0, new ToDoItem { ID = 0, Owner = "*", Description = "feed the dog" });
             //mockData.Add(1, new ToDoItem { ID = 1, Owner = "*", Description = "take the dog on a walk" });
         }
@@ -40,7 +42,7 @@ namespace SlalomConnectsAPI.Controllers
         public HttpResponseMessage Get()
         {
             var response = this.Request.CreateResponse(HttpStatusCode.OK);
-            var responseBody = _eventRequests.Aggregate("", (current, eventRequest) => current + eventRequest.ToString() + Environment.NewLine);
+            var responseBody = _existingEventRequests.Aggregate("", (current, eventRequest) => current + eventRequest.ToString() + Environment.NewLine);
             response.Content = new StringContent(responseBody, Encoding.UTF8);
 
             return response;
@@ -48,7 +50,7 @@ namespace SlalomConnectsAPI.Controllers
 
         [HttpPost]
         [Route("slalom-connects-api/post-event-request")]
-        public void Post(string email, EventType eventType, DateTime startTime, DateTime endTime)
+        public void Post(string email, EventType eventType, DateTime startTime, DateTime endTime, int? minimumGroupSize, int? maximumGroupSize)
         {
             CheckCallerId();
 
@@ -63,7 +65,12 @@ namespace SlalomConnectsAPI.Controllers
                     EndTime = endTime
                 };
 
-                _eventRequests.Add(eventRequest);
+                var foundGroup = _groupMatchingController.MatchGroupFromEventRequests(eventRequest, _existingEventRequests);
+
+                if (foundGroup == null)
+                {
+                    _existingEventRequests.Add(eventRequest);
+                }
             }
             catch (Exception ex)
             {
