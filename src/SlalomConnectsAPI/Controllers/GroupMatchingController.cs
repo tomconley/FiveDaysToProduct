@@ -40,9 +40,9 @@ namespace SlalomConnectsAPI.Controllers
             var requestsWithMatchingEventType = GetRequestsWithMatchingEventType(newEventRequest, existingEventRequests);
             if (requestsWithMatchingEventType.Count < MinimumGroupSize) { return null; }
 
-            var eventGroup = GetEventGroupByMatchingEventTimes(newEventRequest, existingEventRequests);
+            var possibleEventGroupsWithMinimumCountOrMore = GetEventGroupByMatchingEventTimes(newEventRequest, existingEventRequests);
 
-            return eventGroup;
+            return GetEventGroupWithEarliestSubmitionTime(possibleEventGroupsWithMinimumCountOrMore);
         }
 
         private static List<EventRequest> GetRequestsWithMatchingEventType(EventRequest newEventRequest, List<EventRequest> existingEventRequests)
@@ -50,7 +50,7 @@ namespace SlalomConnectsAPI.Controllers
             return existingEventRequests.Where(aRequest => newEventRequest.EventType == aRequest.EventType).ToList();
         }
 
-        private static EventGroup GetEventGroupByMatchingEventTimes(EventRequest newEventRequest,
+        private static List<EventGroup> GetEventGroupByMatchingEventTimes(EventRequest newEventRequest,
             List<EventRequest> existingEventRequests)
         {
             var possibleEventGroups = new List<EventGroup>();
@@ -89,7 +89,7 @@ namespace SlalomConnectsAPI.Controllers
                         continue;
                     }
 
-                    // Last case is if possibleEventGroup.EventRequests.Count == 2. If
+                    // Last case is if possibleEventGroup.EventRequests.Count == 2. Adjust the existing group time to fit the 3rd person, then add them to the group.
                     var possibleStartTime = possibleEventGroup.StartTime >= existingEventRequest.StartTime ? possibleEventGroup.StartTime : existingEventRequest.StartTime;
                     var possibleEndTime = possibleEventGroup.EndTime <= existingEventRequest.EndTime ? possibleEventGroup.EndTime : existingEventRequest.EndTime;
 
@@ -106,7 +106,7 @@ namespace SlalomConnectsAPI.Controllers
 
             if (possibleEventGroupsWithMinimumCountOrMore.Count == 0) return null;
 
-            return GetEventGroupWithEarliestSubmitionTime(possibleEventGroupsWithMinimumCountOrMore);
+            return possibleEventGroupsWithMinimumCountOrMore;
         }
 
         private static EventGroup GetEventGroupWithEarliestSubmitionTime(List<EventGroup> eventGroups)
