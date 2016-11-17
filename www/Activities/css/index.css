@@ -9,11 +9,14 @@ img {
 }
 
 p {
+    width: 700px;
     font-family: helvetica;
     font-size: 60px;
     color: white;
     text-align: center;
-    padding: 0px 150px;
+    font-weight: 300;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 button {
