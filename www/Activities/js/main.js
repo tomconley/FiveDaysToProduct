@@ -1,5 +1,5 @@
 function setSize() {
-    document.getElementById("activityOptions").style.display = "none";
+    document.getElementById("activity-options").style.display = "none";
     document.getElementById("size").style.display = "block";
 }
 
