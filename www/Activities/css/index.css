@@ -1,11 +1,10 @@
-.index-container {
+body {
     background-image: url("../assets/home-bg-image.png");
-    padding-bottom: 50px;
 }
 
 img {
     display: block;
-    margin:  auto;
+    margin: auto;
     padding-top: 120px;
 }
 
@@ -17,17 +16,18 @@ p {
     padding: 0px 150px;
 }
 
-
 button {
     margin: 0 auto;
     text-align: center;
     display: block;
-    background-color: blue;
-    padding: 10px;
+    background-color: #0072C8;
+    padding: 13px 35px;
+    border-radius: 3px;
+    border: 0px;
+    font-size: 15px;
 }
 
 button a {
     text-decoration: none;
     color: white;
-
 }
