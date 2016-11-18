@@ -5,25 +5,24 @@
 
 
 
-
-<div id="activity-options" class="center" onclick="setSize()">
+<div id="activity-options" class="center" >
     <h3>What would you like to do?</h3>
     <div class="activity-icons">
-        <div class="circle">
+        <div class="circle" onclick="setSize('coffee')">
             <img src="./Activities/assets/coffee-icon.png">
         </div>
         <p>Coffee</p>
     </div>
 
     <div class="activity-icons">
-        <div class="circle middle">
+        <div class="circle middle" onclick="setSize('lunch')">
             <img src="./Activities/assets/lunch-icon.png">
         </div>
         <p>Lunch</p>
     </div>
 
     <div class="activity-icons">
-        <div class="circle">
+        <div class="circle" onclick="setSize('pingPong')">
             <img src="./Activities/assets/ping-pong-icon.png">
         </div>
         <p>Ping Pong</p>
@@ -47,25 +46,21 @@
         </select>
     </form>
 
-
     <button class="next-btn" onclick="setTime()">Next</button>
 </div>
-
 
 
 
 <div id="time" class="center">
     <h3>What time can you meet?</h3>
     <p class="explanation">We use this range to determine the best time to go to lunch with other Slalom employees</p>
+
     <form>
-        Start Time: <input type="time" name="startTime">
-        <br>
-        End Time: <input type="time" name="endTime">
+        <p>Start Time:</p><input type="time" name="startTime">
+        <p>End Time:</p> <input type="time" name="endTime">
     </form>
     <button class="next-btn" onclick="createUser()">Next</button>
 </div>
-
-
 
 
 
@@ -73,7 +68,7 @@
     <h3>Register and confirm</h3>
     <p class="explanation">Before we find you people to lunch with, we need to confirm your identity.</p>
 
-    <form id="myForm" method="post" action="./confirm.html">
+    <form id="myForm" method="post" action="slalom-connects-api/post-event-request">
         <p>Name (first, last)</p><input type="text" name="name">
         <p>E-mail</p><input type="text" name="email"><span>Slalom email only</span>
         <p>Password</p><input type="text" name="password">

@@ -89,14 +89,14 @@ h3 {
 
 
 
-
-
-
-
 #time {
     display: none;
 }
 
+#time form p {
+    font-size: 16px;
+    font-weight: 700;
+}
 
 
 
