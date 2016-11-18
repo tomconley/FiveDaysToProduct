@@ -23,7 +23,7 @@ namespace SlalomConnectsAPI.Controllers
                 mailMsg.Subject = "Slalom Meetup - We're finding some friends for " + eventRequest.EventType;
                 string text = "Hey! We've got you in line to find a group for " + eventRequest.EventType + ". Once we find some others to meet up with you, we'll let you know!";
 
-                string html = @"<p>Hey! We've got you in line to find a group for " + eventRequest.EventType + ". Once we find some others to meet up with you, we'll let you know!</p>";
+                string html = @"<h1>Hey!</h1><br/><p> We've got you in line to find a group for " + eventRequest.EventType + ".<br/> Once we find some others to meet up with you, we'll let you know!</p>";
                 mailMsg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
                 mailMsg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
 
@@ -60,8 +60,8 @@ namespace SlalomConnectsAPI.Controllers
                 string text = "Hey! Are you ready for " + eventGroup.EventType + "? Meet your fellow Slalomites on Floor 15 near the elevators at " + eventGroup.StartTime + "!" +
                               "Have fun!";
 
-                string html = @"<p>Hey!< br > " +
-                              "Are you ready for " + eventGroup.EventType + "?" +
+                string html = @"<h1>Hey!</h1><br/> " +
+                              "<p>Are you ready for " + eventGroup.EventType + "?<br/>" +
                               "Meet your fellow Slalomites on Floor 15 near the elevators at " + eventGroup.StartTime + "!<br>" +
                               "Have fun! </p>";
                 mailMsg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
