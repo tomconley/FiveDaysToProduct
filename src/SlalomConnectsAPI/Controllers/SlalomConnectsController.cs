@@ -22,8 +22,6 @@ namespace SlalomConnectsAPI.Controllers
         {
             _existingEventRequests = new List<EventRequest>();
             _groupMatchingController = new GroupMatchingController();
-            //mockData.Add(0, new ToDoItem { ID = 0, Owner = "*", Description = "feed the dog" });
-            //mockData.Add(1, new ToDoItem { ID = 1, Owner = "*", Description = "take the dog on a walk" });
         }
 
         private static void CheckCallerId()
@@ -50,13 +48,57 @@ namespace SlalomConnectsAPI.Controllers
 
         [HttpPost]
         [Route("slalom-connects-api/populate-test-users")]
-        public HttpResponseMessage PostTestData()
+        public void PostTestData()
         {
             _existingEventRequests.Add(new EventRequest()
             {
-                
+                EventRequestGuid = Guid.NewGuid(),
+                TimeOfRequestSubmition = DateTime.Now,
+                Email = "cody@slalom.com",
+                EventType = EventType.Lunch,
+                StartTime = DateTime.Now.AddHours(1),
+                EndTime = DateTime.Now.AddHours(5)
             });
-            return null;
+
+            _existingEventRequests.Add(new EventRequest()
+            {
+                EventRequestGuid = Guid.NewGuid(),
+                TimeOfRequestSubmition = DateTime.Now,
+                Email = "tom@slalom.com",
+                EventType = EventType.Lunch,
+                StartTime = DateTime.Now.AddHours(1),
+                EndTime = DateTime.Now.AddHours(2)
+            });
+
+            _existingEventRequests.Add(new EventRequest()
+            {
+                EventRequestGuid = Guid.NewGuid(),
+                TimeOfRequestSubmition = DateTime.Now,
+                Email = "brian@slalom.com",
+                EventType = EventType.Lunch,
+                StartTime = DateTime.Now.AddHours(3),
+                EndTime = DateTime.Now.AddHours(4)
+            });
+
+            _existingEventRequests.Add(new EventRequest()
+            {
+                EventRequestGuid = Guid.NewGuid(),
+                TimeOfRequestSubmition = DateTime.Now,
+                Email = "josh@slalom.com",
+                EventType = EventType.Coffee,
+                StartTime = DateTime.Now.AddHours(1),
+                EndTime = DateTime.Now.AddHours(3)
+            });
+
+            _existingEventRequests.Add(new EventRequest()
+            {
+                EventRequestGuid = Guid.NewGuid(),
+                TimeOfRequestSubmition = DateTime.Now,
+                Email = "tim@slalom.com",
+                EventType = EventType.Lunch,
+                StartTime = DateTime.Now.AddHours(2),
+                EndTime = DateTime.Now.AddHours(3)
+            });
         }
 
         [HttpPost]
