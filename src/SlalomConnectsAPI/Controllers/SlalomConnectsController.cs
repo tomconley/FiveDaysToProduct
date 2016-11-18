@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace SlalomConnectsAPI.Controllers
 {
@@ -18,12 +19,14 @@ namespace SlalomConnectsAPI.Controllers
         private static List<EventRequest> _existingEventRequests;
         private static List<EventGroup> _existingEventGroups;
         private static GroupController _groupController;
+        private static JavaScriptSerializer _javaScriptSerializer;
 
         static SlalomConnectsController()
         {
             _existingEventRequests = new List<EventRequest>();
             _existingEventGroups = new List<EventGroup>();
             _groupController = new GroupController();
+            _javaScriptSerializer = new JavaScriptSerializer();
         }
 
         private static void CheckCallerId()
@@ -42,7 +45,7 @@ namespace SlalomConnectsAPI.Controllers
         public HttpResponseMessage GetRequests()
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
-            var responseBody = _existingEventRequests.Aggregate("", (current, request) => current + request.ToString() + Environment.NewLine);
+            var responseBody = _javaScriptSerializer.Serialize(_existingEventRequests);
             response.Content = new StringContent(responseBody, Encoding.UTF8);
 
             return response;
@@ -53,7 +56,7 @@ namespace SlalomConnectsAPI.Controllers
         public HttpResponseMessage GetGroups()
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
-            var responseBody = _existingEventGroups.Aggregate("", (current, group) => current + group.ToString() + Environment.NewLine);
+            var responseBody = _javaScriptSerializer.Serialize(_existingEventGroups);
             response.Content = new StringContent(responseBody, Encoding.UTF8);
 
             return response;
@@ -160,12 +163,7 @@ namespace SlalomConnectsAPI.Controllers
                     existingGroupThatCanAddNewRequest.EventRequests.Add(newEventRequest);
 
                     var response = Request.CreateResponse(HttpStatusCode.OK);
-                    var emailsInGroup = string.Join(",", existingGroupThatCanAddNewRequest.EventRequests.Select(request => request.Email));
-                    var responseBody = "Group was formed!" + Environment.NewLine
-                                       + "Emails in group: " + emailsInGroup + Environment.NewLine
-                                       + "Event Type: " + existingGroupThatCanAddNewRequest.EventType + Environment.NewLine
-                                       + "Start Time: " + existingGroupThatCanAddNewRequest.StartTime + Environment.NewLine
-                                       + "End Time: " + existingGroupThatCanAddNewRequest.EndTime;
+                    var responseBody = _javaScriptSerializer.Serialize(existingGroupThatCanAddNewRequest);
                     response.Content = new StringContent(responseBody, Encoding.UTF8);
 
                     return response;
@@ -186,7 +184,7 @@ namespace SlalomConnectsAPI.Controllers
                     _existingEventRequests.Add(newEventRequest);
 
                     var response = Request.CreateResponse(HttpStatusCode.Created);
-                    var responseBody = "No group found for " + newEventRequest.Email + ". Added request to waiting pool.";
+                    var responseBody = _javaScriptSerializer.Serialize(_existingEventRequests);
                     response.Content = new StringContent(responseBody, Encoding.UTF8);
 
                     return response;
@@ -208,12 +206,8 @@ namespace SlalomConnectsAPI.Controllers
                     //TODO: send email
 
                     var response = Request.CreateResponse(HttpStatusCode.OK);
-                    var emailsInGroup = string.Join(",", groupResult.EventRequests.Select(request => request.Email));
-                    var responseBody = "Group was formed!" + Environment.NewLine
-                                       + "Emails in group: " + emailsInGroup + Environment.NewLine
-                                       + "Event Type: " + groupResult.EventType + Environment.NewLine
-                                       + "Start Time: " + groupResult.StartTime + Environment.NewLine
-                                       + "End Time: " + groupResult.EndTime;
+
+                    var responseBody = _javaScriptSerializer.Serialize(groupResult);
                     response.Content = new StringContent(responseBody, Encoding.UTF8);
 
                     return response;
