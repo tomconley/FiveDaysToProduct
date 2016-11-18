@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SlalomConnectsAPI.Controllers
 {
-    public class GroupMatchingController
+    public class GroupController
     {
         private const int MinimumGroupSize = 2;
         private const int LunchBufferTime = 45;
@@ -13,11 +13,31 @@ namespace SlalomConnectsAPI.Controllers
         private const int PingPongBufferTime = 15;
         private static int _bufferTime;
 
-        public EventGroup MatchGroupFromEventRequests(EventRequest newEventRequest,
-            List<EventRequest> existingEventRequests)
+        private const int MinimumTimeInMinutesBeforeEvent = 10;
+
+        public EventGroup MatchGroupFromEventRequests(EventRequest newEventRequest, List<EventRequest> existingEventRequests)
         {
             if (existingEventRequests.Count < MinimumGroupSize) { return null; }
 
+            SetEventTypeBufferTime(newEventRequest);
+
+            if (newEventRequest.StartTime.AddMinutes(_bufferTime) > newEventRequest.EndTime) { return null; }
+
+            var requestsWithMatchingEventType = GetRequestsWithMatchingEventType(newEventRequest, existingEventRequests);
+            if (requestsWithMatchingEventType.Count < MinimumGroupSize) { return null; }
+
+            var possibleEventGroupsWithMinimumCountOrMore = GetEventGroupByMatchingEventTimes(newEventRequest, requestsWithMatchingEventType);
+
+            if (possibleEventGroupsWithMinimumCountOrMore != null)
+            {
+                return GetEventGroupWithEarliestSubmitionTime(possibleEventGroupsWithMinimumCountOrMore);
+            }
+
+            return null;
+        }
+
+        private static void SetEventTypeBufferTime(EventRequest newEventRequest)
+        {
             _bufferTime = int.MaxValue;
 
             switch (newEventRequest.EventType)
@@ -34,20 +54,39 @@ namespace SlalomConnectsAPI.Controllers
                     _bufferTime = PingPongBufferTime;
                     break;
             }
+        }
 
-            if (newEventRequest.StartTime.AddMinutes(_bufferTime) > newEventRequest.EndTime) { return null; }
-
-            var requestsWithMatchingEventType = GetRequestsWithMatchingEventType(newEventRequest, existingEventRequests);
-            if (requestsWithMatchingEventType.Count < MinimumGroupSize) { return null; }
-
-            var possibleEventGroupsWithMinimumCountOrMore = GetEventGroupByMatchingEventTimes(newEventRequest, existingEventRequests);
-
-            if (possibleEventGroupsWithMinimumCountOrMore != null)
+        public EventGroup CheckForGroupThatCouldAddTheNewEventRequest(EventRequest newEventRequest, List<EventGroup> existingEventGroups)
+        {
+            if (existingEventGroups.Count <= 0)
             {
-                return GetEventGroupWithEarliestSubmitionTime(possibleEventGroupsWithMinimumCountOrMore);
+                return null;
+            }
+
+            SetEventTypeBufferTime(newEventRequest);
+
+            foreach (var existingEventGroup in existingEventGroups)
+            {
+                if (existingEventGroup.EventType != newEventRequest.EventType)
+                {
+                    continue;
+                }
+
+                if (existingEventGroup.StartTime.AddMinutes(_bufferTime) <= newEventRequest.EndTime
+                    && newEventRequest.StartTime.AddMinutes(_bufferTime) <= existingEventGroup.EndTime)
+                {
+                    return existingEventGroup;
+                }
             }
 
             return null;
+        }
+
+        public List<EventGroup> RemoveGroupsAtOrPastTheirStartTime(List<EventGroup> existingEventGroups)
+        {
+            return
+                existingEventGroups.Where(
+                    eventGroup => DateTime.Now.AddMinutes(MinimumTimeInMinutesBeforeEvent) < eventGroup.StartTime).ToList();
         }
 
         private static List<EventRequest> GetRequestsWithMatchingEventType(EventRequest newEventRequest, List<EventRequest> existingEventRequests)

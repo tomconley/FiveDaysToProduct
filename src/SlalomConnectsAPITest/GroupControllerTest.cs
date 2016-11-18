@@ -10,13 +10,13 @@ namespace SlalomConnectsAPITest
     /// Summary description for GroupMatchingControllerTest
     /// </summary>
     [TestClass]
-    public class GroupMatchingControllerTest
+    public class GroupControllerTest
     {
-        private GroupMatchingController _groupMatchingController;
+        private readonly GroupController _groupMatchingController;
 
-        public GroupMatchingControllerTest()
+        public GroupControllerTest()
         {
-            _groupMatchingController = new GroupMatchingController();
+            _groupMatchingController = new GroupController();
         }
 
         #region Additional test attributes
@@ -45,7 +45,7 @@ namespace SlalomConnectsAPITest
 
         [TestMethod]
         public void
-            WhenTwoRequestsForLunchExist_AndAThirdRequestForLunchIsCreated_GiveTheTimesAllOverlap_AGroupShouldBeFormed_()
+            WhenTwoRequestsForLunchExist_AndAThirdRequestForLunchIsCreated_GiveTheTimesAllMatch_AGroupShouldBeFormed_()
         {
             var existingEventRequests = new List<EventRequest>
             {
@@ -69,7 +69,7 @@ namespace SlalomConnectsAPITest
                 }
             };
 
-            var newRequestForCoffee = new EventRequest()
+            var newEventRequest = new EventRequest()
             {
                 EventRequestGuid = Guid.NewGuid(),
                 TimeOfRequestSubmition = DateTime.Now,
@@ -79,13 +79,13 @@ namespace SlalomConnectsAPITest
                 EndTime = DateTime.Now.AddHours(3)
             };
 
-            var groupResult = _groupMatchingController.MatchGroupFromEventRequests(newRequestForCoffee, existingEventRequests);
+            var groupResult = _groupMatchingController.MatchGroupFromEventRequests(newEventRequest, existingEventRequests);
 
             Assert.IsNotNull(groupResult);
         }
 
         [TestMethod]
-        public void WhenTwoRequestsForLunchExist_AndAThirdRequestForLunchIsCreated_ButTheTimesDoNotOverlap_AGroupShouldNotBeFormed_()
+        public void WhenTwoRequestsForLunchExist_AndAThirdRequestForLunchIsCreated_ButTheTimesDoNotMatch_AGroupShouldNotBeFormed_()
         {
             var existingEventRequests = new List<EventRequest>
             {
@@ -109,7 +109,7 @@ namespace SlalomConnectsAPITest
                 }
             };
 
-            var newRequestForCoffee = new EventRequest()
+            var newEventRequest = new EventRequest()
             {
                 EventRequestGuid = Guid.NewGuid(),
                 TimeOfRequestSubmition = DateTime.Now,
@@ -119,11 +119,10 @@ namespace SlalomConnectsAPITest
                 EndTime = DateTime.Now.AddHours(10)
             };
 
-            var groupResult = _groupMatchingController.MatchGroupFromEventRequests(newRequestForCoffee, existingEventRequests);
+            var groupResult = _groupMatchingController.MatchGroupFromEventRequests(newEventRequest, existingEventRequests);
 
             Assert.IsNull(groupResult);
         }
-
 
         [TestMethod]
         public void WhenTwoRequestsForLunchExist_AndAThirdRequestButForCoffeeIsCreated_AGroupShouldNotBeFormed()
@@ -150,7 +149,7 @@ namespace SlalomConnectsAPITest
                 }
             };
 
-            var newRequestForCoffee = new EventRequest()
+            var newEventRequest = new EventRequest()
             {
                 EventRequestGuid = Guid.NewGuid(),
                 TimeOfRequestSubmition = DateTime.Now,
@@ -160,9 +159,69 @@ namespace SlalomConnectsAPITest
                 EndTime = DateTime.Now.AddHours(3)
             };
 
-            var groupResult = _groupMatchingController.MatchGroupFromEventRequests(newRequestForCoffee, existingEventRequests);
+            var groupResult = _groupMatchingController.MatchGroupFromEventRequests(newEventRequest, existingEventRequests);
 
             Assert.IsNull(groupResult);
+        }
+
+        [TestMethod]
+        public void WhenALunchGroupExists_AndFourthLunchRequestIsCreated_GivenTheTimesMatch_ShouldBeAbleToJoin()
+        {
+            var existingEventRequests = new List<EventRequest>
+            {
+                new EventRequest()
+                {
+                    EventRequestGuid = Guid.NewGuid(),
+                    TimeOfRequestSubmition = DateTime.Now,
+                    Email = "cody@slalom.com",
+                    EventType = EventType.Lunch,
+                    StartTime = DateTime.Now.AddHours(1),
+                    EndTime = DateTime.Now.AddHours(5)
+                },
+                new EventRequest()
+                {
+                    EventRequestGuid = Guid.NewGuid(),
+                    TimeOfRequestSubmition = DateTime.Now,
+                    Email = "tom@slalom.com",
+                    EventType = EventType.Lunch,
+                    StartTime = DateTime.Now.AddHours(1),
+                    EndTime = DateTime.Now.AddHours(2)
+                }
+            };
+
+            var newEventRequest = new EventRequest()
+            {
+                EventRequestGuid = Guid.NewGuid(),
+                TimeOfRequestSubmition = DateTime.Now,
+                Email = "josh@slalom.com",
+                EventType = EventType.Lunch,
+                StartTime = DateTime.Now.AddHours(1),
+                EndTime = DateTime.Now.AddHours(3)
+            };
+
+            var groupResult = _groupMatchingController.MatchGroupFromEventRequests(newEventRequest,
+                existingEventRequests);
+
+            var existingGroups = new List<EventGroup>()
+            {
+                groupResult
+            };
+
+            var secondNewEventRequest = new EventRequest()
+            {
+                EventRequestGuid = Guid.NewGuid(),
+                TimeOfRequestSubmition = DateTime.Now,
+                Email = "tim@slalom.com",
+                EventType = EventType.Lunch,
+                StartTime = DateTime.Now.AddHours(1),
+                EndTime = DateTime.Now.AddHours(3)
+            };
+
+            var existingGroupResult =
+                _groupMatchingController.CheckForGroupThatCouldAddTheNewEventRequest(secondNewEventRequest,
+                    existingGroups);
+
+            Assert.IsNotNull(existingGroupResult);
         }
     }
 }
