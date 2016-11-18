@@ -1,7 +1,6 @@
 ﻿using SlalomConnectsAPI.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -20,6 +19,7 @@ namespace SlalomConnectsAPI.Controllers
         private static List<EventGroup> _existingEventGroups;
         private static GroupController _groupController;
         private static JavaScriptSerializer _javaScriptSerializer;
+        private static EmailService _emailService;
 
         static SlalomConnectsController()
         {
@@ -27,6 +27,7 @@ namespace SlalomConnectsAPI.Controllers
             _existingEventGroups = new List<EventGroup>();
             _groupController = new GroupController();
             _javaScriptSerializer = new JavaScriptSerializer();
+            _emailService = new EmailService();
         }
 
         private static void CheckCallerId()
@@ -182,6 +183,7 @@ namespace SlalomConnectsAPI.Controllers
                     // Group not found, add to list of requests that are waiting then send response.
 
                     _existingEventRequests.Add(newEventRequest);
+                    _emailService.SendEmail(newEventRequest);
 
                     var response = Request.CreateResponse(HttpStatusCode.Created);
                     var responseBody = _javaScriptSerializer.Serialize(_existingEventRequests);
@@ -203,7 +205,7 @@ namespace SlalomConnectsAPI.Controllers
 
                     _existingEventGroups.Add(groupResult);
 
-                    //TODO: send email
+                    _emailService.SendEmail(groupResult);
 
                     var response = Request.CreateResponse(HttpStatusCode.OK);
 
