@@ -23,11 +23,10 @@ $(document).ready(function(){
         final += "&endTime=" + x[4].value;
         final += "&maximumGroupSize=" + x[5].value;
 
-<!--url: 'http://slalommeetupapi.azurewebsites.net/slalom-connects-api/post-event-request?email=cody.wahl%40slalom.com&eventType=0&startTime=11%2F18%2F2016%204%3A00%3A00%20PM&endTime=11%2F18%2F2016%205%3A00%3A00%20PM&maximumGroupSize=4',-->
-
+        console.log(final);
 
         $.ajax({
-            //url: 'final',
+            url: 'final',
             type: 'POST',
             dataType: 'json',
             data: $('#myForm').serialize(),

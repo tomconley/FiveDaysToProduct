@@ -336,8 +336,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\SlalomMeetupAPI - Web Deploy %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\SlalomMeetupAPI - Web Deploy %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\API - WebDeplot.pubxml" />
     <None Include="Properties\PublishProfiles\SlalomMeetupAPI - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

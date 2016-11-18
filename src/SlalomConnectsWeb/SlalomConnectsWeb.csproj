@@ -70,9 +70,6 @@
     <None Include="App_Data\PublishProfiles\SlalomMeetup - Web Deploy %282%29.pubxml" />
     <None Include="App_Data\PublishProfiles\SlalomMeetup - Web Deploy %283%29.pubxml" />
     <None Include="App_Data\PublishProfiles\SlalomMeetup - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\SlalomMeetup - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\SlalomMeetupWeb - Web Deploy %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\SlalomMeetupWeb - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\SlalomMeetupWeb - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
