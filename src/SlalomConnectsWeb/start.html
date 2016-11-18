@@ -15,7 +15,8 @@ $(document).ready(function(){
 
 
         $.ajax({
-            url: 'http://slalommeetupapi.azurewebsites.net:80/slalom-connects-api/post-event-requests',
+            //url: 'http://slalommeetupapi.azurewebsites.net:80/slalom-connects-api/post-event-requests',
+            url: 'http://slalommeetupapi.azurewebsites.net/slalom-connects-api/post-event-request?email=cody.wahl%40slalom.com&eventType=0&startTime=11%2F18%2F2016%204%3A00%3A00%20PM&endTime=11%2F18%2F2016%205%3A00%3A00%20PM&maximumGroupSize=4',
             type: 'POST',
             dataType: 'json',
             data: $('form#myForm').serialize(),
