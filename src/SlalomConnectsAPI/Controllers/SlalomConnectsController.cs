@@ -59,6 +59,14 @@ namespace SlalomConnectsAPI.Controllers
             return response;
         }
 
+        [HttpDelete]
+        [Route("slalomconnects-api/delete-groups-and-requests")]
+        public void DeleteGroupAndRequestData()
+        {
+            _existingEventGroups.Clear();
+            _existingEventRequests.Clear();
+        }
+
         // Used for populating test data
         [HttpPost]
         [Route("slalom-connects-api/populate-test-users")]
