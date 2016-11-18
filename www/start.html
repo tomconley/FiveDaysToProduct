@@ -38,11 +38,11 @@
 
     <form>
         <p>People joining you: </p>
-        <select name="maximumGroupSize">
-            <option value="three">3</option>
-            <option value="four">4</option>
-            <option value="five">5</option>
-            <option value="six">6</option>
+        <select id="maximumGroupSize">
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
         </select>
     </form>
 
@@ -56,8 +56,8 @@
     <p class="explanation">We use this range to determine the best time to go to lunch with other Slalom employees</p>
 
     <form>
-        <p>Start Time:</p><input type="time" name="startTime">
-        <p>End Time:</p> <input type="time" name="endTime">
+        <p>Start Time:</p><input type="time" id="startTime">
+        <p>End Time:</p> <input type="time" id="endTime">
     </form>
     <button class="next-btn" onclick="createUser()">Next</button>
 </div>
@@ -68,11 +68,11 @@
     <h3>Register and confirm</h3>
     <p class="explanation">Before we find you people to lunch with, we need to confirm your identity.</p>
 
-    <form id="myForm" method="post" action="slalom-connects-api/post-event-request">
-        <p>Name (first, last)</p><input type="text" name="name">
-        <p>E-mail</p><input type="text" name="email"><span>Slalom email only</span>
-        <p>Password</p><input type="text" name="password">
-        <br><input type="submit" class="next-btn valid-sub" value="Next">
+    <form id="myForm" method="post">
+        <p>Name (first, last)</p><input type="text" id="name">
+        <p>E-mail</p><input type="text" id="email"><span>Slalom email only</span>
+        <p>Password</p><input type="text" id="password">
+        <br><button class="next-btn valid-sub" onclick="submitForm()">Next</button>
     </form>
 </div>
 

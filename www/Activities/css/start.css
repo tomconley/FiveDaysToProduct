@@ -124,6 +124,8 @@ h3 {
     margin-top: 10px;
     height: 35px;
     width: 200px;
+    color: white;
+    padding-left: 2px;
 }
 
 #validUser .valid-sub {
@@ -131,4 +133,6 @@ h3 {
     width: 105px;
     height: 52px;
     margin-top: 20px;
+    color: #0072C8;
+    padding-left: 30px;
 }
