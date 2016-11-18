@@ -1,0 +1,38 @@
+body {
+    background-image: url("../assets/home-bg-image.png");
+    padding-top: 50px;
+}
+
+img {
+    display: block;
+    margin: auto;
+    padding-top: 15px;
+}
+
+p {
+    width: 700px;
+    font-family: helvetica;
+    font-size: 60px;
+    color: white;
+    text-align: center;
+    font-weight: 300;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+button {
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    background-color: #0072C8;
+    padding: 13px 35px;
+    border-radius: 3px;
+    border: 0px;
+    font-size: 15px;
+}
+
+button a {
+    text-decoration: none;
+    color: white;
+}
