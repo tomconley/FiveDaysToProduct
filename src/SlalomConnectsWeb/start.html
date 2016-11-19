@@ -26,7 +26,7 @@ $(document).ready(function(){
         console.log(final);
 
         $.ajax({
-            url: 'final',
+            url: final,
             type: 'POST',
             dataType: 'json',
             data: $('#myForm').serialize(),
@@ -96,8 +96,8 @@ $(document).ready(function(){
     <p class="explanation">We use this range to determine the best time to go to lunch with other Slalom employees</p>
 
     <form>
-        <p>Start Time:</p><input type="time" id="startTime">
-        <p>End Time:</p> <input type="time" id="endTime">
+        <p>Start Time:</p><input type="datetime" id="startTime">
+        <p>End Time:</p> <input type="datetime" id="endTime">
     </form>
     <button class="next-btn" onclick="createUser()">Next</button>
 </div>
