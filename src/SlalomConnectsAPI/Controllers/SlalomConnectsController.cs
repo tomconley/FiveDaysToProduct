@@ -20,6 +20,7 @@ namespace SlalomConnectsAPI.Controllers
         private static GroupController _groupController;
         private static JavaScriptSerializer _javaScriptSerializer;
         private static EmailService _emailService;
+        private static int EventGroupIndexTracker = 0;
 
         static SlalomConnectsController()
         {
@@ -203,9 +204,10 @@ namespace SlalomConnectsAPI.Controllers
                         }
                     }
 
+                    EventGroupIndexTracker++;
                     _existingEventGroups.Add(groupResult);
 
-                    _emailService.SendEmail(groupResult);
+                    _emailService.SendEmail(groupResult, EventGroupIndexTracker);
 
                     var response = Request.CreateResponse(HttpStatusCode.OK);
 

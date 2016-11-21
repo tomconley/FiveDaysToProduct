@@ -40,7 +40,7 @@ namespace SlalomConnectsAPI.Controllers
             }
         }
 
-        public void SendEmail(EventGroup eventGroup)
+        public void SendEmail(EventGroup eventGroup, int eventGroupIndex)
         {
             try
             {
@@ -64,6 +64,10 @@ namespace SlalomConnectsAPI.Controllers
                               "<p>Are you ready for " + eventGroup.EventType + "?<br/>" +
                               "Meet your fellow Slalomites on Floor 15 near the elevators at " + eventGroup.StartTime + "!<br>" +
                               "Have fun! </p>";
+
+
+                html = html + "Testing confirming of event. You are part of event group " + eventGroupIndex;
+
                 mailMsg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
                 mailMsg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
 
