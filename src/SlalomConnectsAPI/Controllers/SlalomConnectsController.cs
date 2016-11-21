@@ -204,10 +204,11 @@ namespace SlalomConnectsAPI.Controllers
                         }
                     }
 
-                    EventGroupIndexTracker++;
                     _existingEventGroups.Add(groupResult);
 
+                    //First event group starts at index 0, then increases
                     _emailService.SendEmail(groupResult, EventGroupIndexTracker);
+                    EventGroupIndexTracker++;
 
                     var response = Request.CreateResponse(HttpStatusCode.OK);
 
